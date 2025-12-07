@@ -1,0 +1,25 @@
+{% block content %}
+<div>
+    <h2>Order Details</h2>
+    <table width="100%">
+        <thead>
+            <tr>
+                <td width="45%">Product name</td>
+                <td align="right">Quantity</td>
+                <td align="right">Unit price</td>
+                <td align="right">Line total</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for od in orderdetails %}
+            <tr>
+                <td>{{od.product_name}}</td>
+                <td align="right">{{od.quantity}}</td>
+                <td align="right">{{ "{:.2}" |format(od.od_unit_price)}}</td>
+                <td align="right">{{ "{:.2}" |format(od.od_unit_price * od.quantity as f32) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

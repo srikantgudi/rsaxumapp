@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem">
+    <div>
+        <h2>Categories page :{{categories.len()}}#</h2>
+        <div>
+            {% for c in categories %}
+            <div class="record link uri" hx-get="/category/{{c.category_id}}/products" hx-target="#products">
+                <div>{{c.category_name}}</div>
+                <div><small>{{c.description}}</small></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="products">-- products --</div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<div style="display: grid; grid-template-columns: 2fr 5fr; gap: 1rem">
+    <div>
+        <h2>Customers | {{customers.len()}} fetched</h2>
+        <div style="height: 70dvh; overflow-y: auto">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Company name | Location</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cu in customers %}
+                    <tr class="link" hx-get="/customer/{{cu.customer_id}}/orders" hx-target="#orders">
+                        <td>{{cu.company_name}} | {{cu.city}}, {{cu.country}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="orders">
+        <div style="margin: 4rem">-- orders --</div>
+    </div>
+</div>
+{% endblock %}

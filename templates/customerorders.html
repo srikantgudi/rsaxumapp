@@ -1,0 +1,36 @@
+{% block content %}
+<div style="display: grid;grid-template-columns: 2fr 4fr;gap:1rem;">
+    <div>
+        <h2>Orders</h2>
+        <table>
+            <thead>
+                <tr>
+                    <td align="right">Order Id</td>
+                    <td>Order Date</td>
+                    <td>Shipped Date</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in orders %}
+                <tr class="link" hx-get="/order/{{o.order_id}}/details" hx-target="#odetails">
+                    <td align="right">{{o.order_id}}</td>
+                    <td>{{o.order_date.format("%d-%b-%Y")}}</td>
+                    <td>
+                        {% if o.shipped_date.is_some() %}
+                        {{ o.shipped_date.unwrap().format("%d-%b-%Y") }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id="odetails">
+        <div style="margin:8rem 4rem">
+            -- details --
+        </div>
+    </div>
+</div>
+{% endblock %}
