@@ -13,10 +13,10 @@
         <tbody>
             {% for od in orderdetails %}
             <tr>
-                <td>{{od.product_name}}</td>
+                <td>{{od.productname}}</td>
                 <td align="right">{{od.quantity}}</td>
-                <td align="right">{{ "{:.2}" |format(od.od_unit_price)}}</td>
-                <td align="right">{{ "{:.2}" |format(od.od_unit_price * od.quantity as f32) }}</td>
+                <td align="right">{{ "{:.2}" |format(od.price)}}</td>
+                <td align="right">{{ "{:.2}" |format(od.price * od.quantity as f32) }}</td>
             </tr>
             {% endfor %}
         </tbody>

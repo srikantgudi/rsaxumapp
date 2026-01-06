@@ -11,8 +11,8 @@
                 </thead>
                 <tbody>
                     {% for cu in customers %}
-                    <tr class="link" hx-get="/customer/{{cu.customer_id}}/orders" hx-target="#orders">
-                        <td>{{cu.company_name}} | {{cu.city}}, {{cu.country}}</td>
+                    <tr class="link" hx-get="/customer/{{cu.id}}/orders" hx-target="#orders">
+                        <td>{{cu.name}} | {{cu.city}}, {{cu.country}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

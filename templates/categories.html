@@ -4,9 +4,9 @@
         <h2>Categories: {{categories.len()}} fetched</h2>
         <div>
             {% for c in categories %}
-            <div class="record link uri" hx-get="/category/{{c.category_id}}/products" hx-target="#products">
-                <div>{{c.category_name}}</div>
-                <div><small>{{c.description}}</small></div>
+            <div class="record link uri" hx-get="/category/{{c.id}}/products" hx-target="#products">
+                <div>{{c.name}}</div>
+                <div><small>{{c.descr}}</small></div>
             </div>
             {% endfor %}
         </div>

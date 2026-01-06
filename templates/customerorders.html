@@ -12,12 +12,12 @@
             </thead>
             <tbody>
                 {% for o in orders %}
-                <tr class="link" hx-get="/order/{{o.order_id}}/details" hx-target="#odetails">
-                    <td align="right">{{o.order_id}}</td>
-                    <td nowrap>{{o.order_date.format("%d-%b-%Y")}}</td>
+                <tr class="link" hx-get="/order/{{o.id}}/details" hx-target="#odetails">
+                    <td align="right">{{o.id}}</td>
+                    <td nowrap>{{o.orderdate.format("%d-%b-%Y")}}</td>
                     <td>
-                        {% if o.shipped_date.is_some() %}
-                        {{ o.shipped_date.unwrap().format("%d-%b-%Y") }}
+                        {% if o.shipdate.is_some() %}
+                        {{ o.shipdate.unwrap().format("%d-%b-%Y") }}
                         {% else %}
                         -
                         {% endif %}

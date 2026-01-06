@@ -1,8 +1,8 @@
-use crate::Locale;
 use crate::models::Category;
 use crate::models::*;
 use Product;
-use askama_derive::Template;
+use askama::Template;
+
 #[derive(Template)]
 #[template(path = "error.html")] // Error page template
 pub struct ErrorTemplate {
@@ -47,4 +47,22 @@ pub struct CustomerOrdersTemplate {
 #[template(path = "orderdetails.html")] // this will look in `templates/`
 pub struct OrderDetailsTemplate {
     pub orderdetails: Vec<OrderDetail>,
+}
+
+#[derive(Template)]
+#[template(path = "zonetimes.html")]
+pub struct ZoneTimesTemplate {
+    pub zones: Vec<String>,
+    pub selected_zone: Option<String>,
+}
+
+#[derive(Template)]
+#[template(path = "zonetime.html")]
+pub struct ZoneTimeTemplate {
+    pub zone: String,
+    pub zone_time: String,
+    pub hour_angle: f64,
+    pub minute_angle: f64,
+    pub second_angle: f64,
+    pub handclr: String
 }

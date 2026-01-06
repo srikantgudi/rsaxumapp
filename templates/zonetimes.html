@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Zone times</h2>
+<div style="display: grid;grid-template-columns: 1fr 1fr;gap:1rem;">
+    <div style="height:70vh;overflow-y: auto;">
+        <form hx-post="/zonetime" hx-target="#zonetime" hx-trigger="change" hx-indicator="#debug">
+            <select size="{{zones.len()}}" name="zone">
+                {% for zone in zones %}
+                <option value="{{ zone }}">{{ zone }}</option>
+                {% endfor %}
+            </select>
+            <div id="debug" class="htmx-indicator">🔄 Loading...</div>
+        </form>
+    </div>
+    <div id="zonetime">
+        -- zone time --
+    </div>
+</div>
+{% endblock %}

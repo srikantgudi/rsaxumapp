@@ -1,29 +1,27 @@
 {% block content %}
 <div>
-    <div>
-        <h2>Products | {{products.len()}} fetched</h2>
-        <div style="height: 70dvh; overflow-y: auto">
-            <table>
-                <thead>
-                    <tr>
-                        <td width="40%">Product name</td>
-                        <td width="30%">Quantity per unit</td>
-                        <td align="right">Unit price</td>
-                        <td align="right">Reorder level</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for p in products %}
-                    <tr>
-                        <td>{{p.product_name}}</td>
-                        <td>{{p.quantity_per_unit}}</td>
-                        <td align="right">{{ "{:.2}" |format(p.unit_price) }}</td>
-                        <td align="right">{{p.reorder_level}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <h2>Products | {{products.len()}} fetched</h2>
+    <div style="height: 70dvh; overflow-y: auto">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td width="40%">Product name</td>
+                    <td width="30%">Quantity per unit</td>
+                    <td align="right">Unit price</td>
+                    <td align="right">Reorder level</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
+                <tr>
+                    <td>{{p.name}}</td>
+                    <td>{{p.qtyperunit}}</td>
+                    <td align="right">{{ "{:.2}" |format(p.price) }}</td>
+                    <td align="right">{{p.rorlevel}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}
