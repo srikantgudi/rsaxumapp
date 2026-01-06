@@ -2,21 +2,22 @@
 
 ## Rust Demo App using **Axum** framework + **Askama** templates
 
-- ### *Axum* is a lightweight Rust web framework that makes routing and building web applications easy.  
-- ### *Askama* is an easy-to-use templating library for rendering HTML output in Rust.
+- *Axum* is a lightweight Rust web framework that makes routing and building web applications easy.
+- *Askama* is an easy-to-use templating library for rendering HTML output in Rust.
 
 ## Key Features
+
 - Simple routing using **Axum**
 - Database connection with **PostgreSQL**
 - HTML rendering using **Askama** templates
 - Lightweight MIS-style data display
 - Demo-ready for learning or extension
 
-## Examples:
+## Examples
 
-#### Routing:
+### Routing
 
-```
+```rust
 use axum::{routing::get, Router};
 
 async fn hello() -> &'static str {
@@ -26,21 +27,27 @@ async fn hello() -> &'static str {
 let app = Router::new().route("/", get(hello));
 ```
 
-#### Database connection and starting the app:
+#### Database connection and starting the app
 
-```
+```rust
 #[tokio::main]
 async fn main() {
     dotenv().ok();
-    let dburl = env::var("DATABASE_URL").expect("db url not set");
-    let pool = PgPool::connect(&dburl)
-        .await
-        .expect("error connecting to db");
     tracing_subscriber::fmt().with_max_level(Level::INFO).init();
+
+    let d = db::Db::connect().await;
 
     let app = Router::new()
         .route("/", get(root_handler))
         .route("/categories", get(categories_handler))
+        .route("/category/{catid}/products", get(category_products_handler))
+        .route("/products", get(products_handler))
+        .route("/customers", get(customers_handler))
+        .route("/customer/{custid}/orders", get(customer_orders_handler))
+        .route("/order/{orderid}/details", get(order_details_handler))
+        .route("/zonetimes", get(zones_handler))
+        .route("/zonetime", post(zone_handler))
+        .layer(Extension(d));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:9090").await.unwrap();
 
@@ -52,39 +59,25 @@ async fn main() {
 
 #### Route handlers example:
 
-```
+```rust
 async fn root_handler() -> impl axum::response::IntoResponse {
     let tmpl = RootTemplate {};
     let rendered = tmpl.render().unwrap();
     Html(rendered)
 }
 
-async fn categories_handler(pool: Extension<PgPool>) -> impl axum::response::IntoResponse {
-    match sqlx::query_as::<_, Category>(
-        "Select category_id, category_name, description From categories",
-    )
-    .fetch_all(&*pool)
-    .await
-    {
-        Ok(data) => {
-            let tmpl = CategoriesTemplate { categories: data };
-            let rendered = tmpl.render().unwrap();
-            Html(rendered)
-        }
-        Err(e) => {
-            let errtmpl = ErrorTemplate {
-                errmsg: e.to_string(),
-            };
-            let rendered = errtmpl.render().unwrap();
-            Html(rendered)
-        }
-    }
+- the handler now uses custom Db module
+
+async fn categories_handler(db: Extension<db::Db>) -> impl axum::response::IntoResponse {
+    let data = db.get_categories().await;
+    let tmpl = CategoriesTemplate {categories: data};
+    Html( tmpl.render().unwrap())
 }
 ```
 
 ### Askama templates definition:
 
-```
+```rust
 use askama_derive::Template;
 #[derive(Template)]
 #[template(path = "error.html")] // Error page template
@@ -105,7 +98,7 @@ pub struct CategoriesTemplate {
 
 ## Getting Started
 
-```
+```rust
 1. Clone the repo  
 2. Set `DATABASE_URL` in a `.env` file  
 3. Run: `cargo run`  
@@ -116,7 +109,7 @@ pub struct CategoriesTemplate {
 
 `Cargo.toml`
 
-```
+```rust
 [dependencies]
 axum = { version = "0.8", features = ["macros"] } 
 askama = "0.13"
